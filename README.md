@@ -5,9 +5,9 @@
    2. money
    3. start screen
    4. Game 
-      4.1 Fold
-      4.2 Call
-      4.3 raise
+   4.1 Fold
+   4.2 Call
+   4.3 raise
    5. web page game
 # goal of the game
 
