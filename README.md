@@ -15,3 +15,6 @@
    2. start money ---> each player may raise money.
    
 # user stories 
+    
+    #maintaing a good user story is essentially useful to help meet the requirement of whato other needed.
+    As a <role>, I want <feature> so that <reason>.
