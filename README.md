@@ -1,7 +1,7 @@
 # CSE442
 
 # Poker Game Description:
-  ## Given a table and 2-10 player, we are going to play poker game.
+  ## Given a table and 2-10 player, we are going to play poker game. The game will started at clockwise position. At Round 1 also called Pre-Flop Round, at this stage each player bet with their best 2 hidden cards. During the "underground position", a player have 3 options to play which is Fold,Call, and Raise. Round 1 completed when all player folded or commited same amount of poker chips to pot.
   
 # Poker game Interface :
    1. login page
