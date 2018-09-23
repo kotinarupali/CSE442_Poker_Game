@@ -1,8 +1,11 @@
+package CSE442_Poker_Game.src;
 
+
+import java.applet.Applet;
 import javax.swing.*;
 import java.awt.*;
 
-public class startweb {
+public class startweb extends Applet{
 
     private JFrame window;  // creating a window to display that display poker game title.
     private JPanel game_screen;
