@@ -64,7 +64,7 @@ public class PokerDesign {
         
         final JPanel p1WinsPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints p1c = new GridBagConstraints();
-	p1c.gridx =0; p1c.gridy =0;
+	p1c.gridx =20; p1c.gridy =20;
 	
 	
 	
@@ -75,7 +75,7 @@ public class PokerDesign {
         
         final JPanel p2WinsPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints p2c = new GridBagConstraints();
-	p2c.gridx =0; p2c.gridy =0;
+	p2c.gridx =20; p2c.gridy =20;
 	
 	
 	
@@ -113,23 +113,40 @@ public class PokerDesign {
 		picPanel.add(label[i]);
 	}
 	
+	final JPanel evaluateButtonPanel = new JPanel(new GridBagLayout());
+        evaluateButtonPanel.setVisible(false);
 	
+	GridBagConstraints evbc = new GridBagConstraints();
+	evbc.gridx = 0;
+	evbc.gridy = 1;
+	
+	JLabel evLbl = new JLabel("PRESS TO EVALUATE:");
+	
+	evaluateButtonPanel.add(evLbl,evbc);
+        evbc.gridx = 0;
+	evbc.gridy = 0;
         
-	JButton begButton = new JButton("BEGIN");
+	evaluateButtonPanel.setBackground(Color.cyan);
+
+	JButton begButton = new JButton("BEGIN");       
 	
 	begButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
 		if(dropList.getSelectedItem().equals("Rules")) {
 			comboPanel.setVisible(true);
 			listPanel.setVisible(true);
+                        evaluateButtonPanel.setVisible(false);
 		}
 		else if(dropList.getSelectedItem().equals("Start Game")) {
 			comboPanel.setVisible(false);
 			picPanel.setVisible(true);
+                        evaluateButtonPanel.setVisible(true);
                         listPanel.setVisible(false);
 		}
 		else
-		comboPanel.setVisible(true);
+                {comboPanel.setVisible(true);
+                evaluateButtonPanel.setVisible(false);
+                }
 		}
 	});
         
@@ -138,18 +155,22 @@ public class PokerDesign {
 	evaluateButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
 		if(highCard(player_one_names) > highCard(player_two_names)) {
+
                         p1WinsPanel.setVisible(true);
                         p2WinsPanel.setVisible(false);
 			comboPanel.setVisible(false);
-                        picPanel.setVisible(false);
+                        picPanel.setVisible(true);
 			listPanel.setVisible(false);
+                        evaluateButtonPanel.setVisible(false);
 		}
 		else {
-                        p2WinsPanel.setVisible(true);
+  
                         p1WinsPanel.setVisible(false);
+                        p2WinsPanel.setVisible(true);
 			comboPanel.setVisible(false);
-			picPanel.setVisible(false);
+			picPanel.setVisible(true);
                         listPanel.setVisible(false);
+                        evaluateButtonPanel.setVisible(false);
 		}
 		}
 	});
@@ -157,15 +178,19 @@ public class PokerDesign {
 	gc.gridx = 1;
 	gc.gridy = 3;
 	comboPanel.add(begButton, gc);
-        picPanel.add(evaluateButton, gc);
+        
+        evbc.gridx = 1;
+	evbc.gridy = 1;
+	evaluateButtonPanel.add(evaluateButton, evbc);
         
         GridLayout grid = new GridLayout(2, 5, 2, 2);
         picPanel.setLayout(grid);
 	
 	
 	guiFrame.add(comboPanel, BorderLayout.NORTH);
+        guiFrame.add(evaluateButtonPanel, BorderLayout.WEST);
 	guiFrame.add(picPanel, BorderLayout.AFTER_LINE_ENDS);
-	guiFrame.add(listPanel, BorderLayout.CENTER);
+	guiFrame.add(listPanel, BorderLayout.SOUTH);
         guiFrame.add(p1WinsPanel, BorderLayout.CENTER);
         guiFrame.add(p2WinsPanel, BorderLayout.CENTER);
 	guiFrame.setVisible(true);
