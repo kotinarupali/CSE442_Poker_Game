@@ -65,7 +65,8 @@ public class PokerDesign {
 	JPanel picPanel = new JPanel(new GridBagLayout());
 	picPanel.setVisible(false);
 	
-	JLabel[] label = new Cards().gameCardsLabel();
+	Cards cards = new Cards();
+	JLabel[] label = cards.gameCardsLabel();
 		
 	ArrayList<String> label_names = cards.getCardLabelNames();
         ArrayList<String> player_one_names = new ArrayList<String>();
