@@ -18,9 +18,10 @@ public class Cards {
 	
 	public Cards() {
 		 ArrayList<String> AllCards = new ArrayList<String>();
-		for(int f = 0; f<_cardNum.length; f++ ) {
-			for(int s =0; s<_suitName.length; s++) {
+		for(int f = 0; f<13; f++ ) {
+			for(int s =0; s<4; s++) {
 				AllCards.add( _cardNum[f] + _suitName[s]);
+				System.out.println( _cardNum[f] + _suitName[s]);
 			}
 		}
 		_allCards = AllCards;
@@ -50,11 +51,23 @@ public class Cards {
 	public String getRandCard() {
 		Random rand = new Random();
 		int elem = rand.nextInt(_allCards.size());
-		System.out.println(elem);
+		//System.out.println(elem);
 		String retval = "";
-		retval = 	_allCards.remove(elem);	
-		System.out.println(retval);
+		retval = 	_allCards.get(elem);
+		_allCards.remove(retval);
+		//System.out.println(retval);
 		return retval;
+	}
+	
+	public JLabel[] gameCardsLabel() {
+		JLabel[] Labels = new JLabel[10];
+		for(int i =0; i < 10; i++) {
+			JLabel x = new JLabel();
+			ImageIcon Img = getImageIcon();
+			x = new JLabel(Img);
+			Labels[i] = x;
+		}
+		return Labels;
 	}
 
 }
