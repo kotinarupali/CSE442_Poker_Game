@@ -24,7 +24,7 @@ public class PokerDesign {
 	
 	String[] firstOptions = {"Rules", "Start Game", "Scoreboard","Shop"};
 	//Getting rules here
-	String[] Rules = new RuleReader().getRules("src\\PokerGame_GUI\\allPokerRules.txt");
+	String[] Rules = new RuleReader().getRules("C:\\Users\\kotin\\Desktop\\cse 442\\CSE442_PokerGame\\src\\PokerGame_GUI\\allPokerRules.txt");
 	
 	//The first JPanel contains a JLabel and JCombobox
 	final JPanel comboPanel = new JPanel(new GridBagLayout());
@@ -61,10 +61,34 @@ public class PokerDesign {
 	
 	lc.gridx = 0; lc.gridy = 1;
 	listPanel.add(ruleList,lc);
+        
+        final JPanel p1WinsPanel = new JPanel(new GridBagLayout());
+	GridBagConstraints p1c = new GridBagConstraints();
+	p1c.gridx =0; p1c.gridy =0;
+	
+	
+	
+	p1WinsPanel.setVisible(false);
+	JLabel p1Wins = new JLabel("PLAYER 1 WINS!!!");
+	p1WinsPanel.add(p1Wins);
+        
+        
+        final JPanel p2WinsPanel = new JPanel(new GridBagLayout());
+	GridBagConstraints p2c = new GridBagConstraints();
+	p2c.gridx =0; p2c.gridy =0;
+	
+	
+	
+	p2WinsPanel.setVisible(false);
+	JLabel p2Wins = new JLabel("PLAYER 2 WINS!!!");
+	p2WinsPanel.add(p2Wins);
+        
+        
 	
 	JPanel picPanel = new JPanel(new GridBagLayout());
 	picPanel.setVisible(false);
-	
+        
+
 	Cards cards = new Cards();
 	JLabel[] label = cards.gameCardsLabel();
 		
@@ -75,15 +99,22 @@ public class PokerDesign {
 	}
         
         ArrayList<String> player_two_names = new ArrayList<String>();
-         for(int i =5; i < 10; i++) {
+        for(int i =5; i < 10; i++) {
             player_two_names.add(label_names.get(i));
 	}
-		
+	
+        for(int i =0; i < 10; i++) {
+		System.out.println("Suit: " + get_suitName(label_names.get(i)) + "     Face: " + get_cardName(label_names.get(i)));
+	}
+        
+        
+        
 	for(int i =0; i < label.length; i++) {
 		picPanel.add(label[i]);
 	}
 	
 	
+        
 	JButton begButton = new JButton("BEGIN");
 	
 	begButton.addActionListener(new ActionListener(){
@@ -101,10 +132,32 @@ public class PokerDesign {
 		comboPanel.setVisible(true);
 		}
 	});
+        
+        JButton evaluateButton = new JButton("EVALUATE");
 	
-	gc.gridx =1;
+	evaluateButton.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent event){
+		if(highCard(player_one_names) > highCard(player_two_names)) {
+                        p1WinsPanel.setVisible(true);
+                        p2WinsPanel.setVisible(false);
+			comboPanel.setVisible(false);
+                        picPanel.setVisible(false);
+			listPanel.setVisible(false);
+		}
+		else {
+                        p2WinsPanel.setVisible(true);
+                        p1WinsPanel.setVisible(false);
+			comboPanel.setVisible(false);
+			picPanel.setVisible(false);
+                        listPanel.setVisible(false);
+		}
+		}
+	});
+        
+	gc.gridx = 1;
 	gc.gridy = 3;
 	comboPanel.add(begButton, gc);
+        picPanel.add(evaluateButton, gc);
         
         GridLayout grid = new GridLayout(2, 5, 2, 2);
         picPanel.setLayout(grid);
@@ -113,7 +166,45 @@ public class PokerDesign {
 	guiFrame.add(comboPanel, BorderLayout.NORTH);
 	guiFrame.add(picPanel, BorderLayout.AFTER_LINE_ENDS);
 	guiFrame.add(listPanel, BorderLayout.CENTER);
+        guiFrame.add(p1WinsPanel, BorderLayout.CENTER);
+        guiFrame.add(p2WinsPanel, BorderLayout.CENTER);
 	guiFrame.setVisible(true);
+        
+        
 	}
-	
+        
+        
+        public String get_cardName(String playerLabel)
+        {
+            String cardNum =  playerLabel.substring(0, playerLabel.length() - 1);
+            switch(cardNum)
+            {
+                case "A": return "14";
+                case "K": return "13";
+                case "Q": return "12";
+                case "J": return "11";
+                default: return cardNum;                
+            }
+        }
+        
+	public String get_suitName(String playerLabel)
+        {
+            return playerLabel.substring(playerLabel.length() - 1);
+        }
+        
+        public int highCard(ArrayList<String> playerLabels)
+        {
+            int highCardNum = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                int card1 = Integer.parseInt(get_cardName(playerLabels.get(i)));
+                if (highCardNum <= card1)
+                {
+                    highCardNum = card1;
+                }
+            }
+            return highCardNum;
+        }
+        
+        
 }
