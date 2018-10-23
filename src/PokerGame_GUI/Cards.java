@@ -15,6 +15,7 @@ public class Cards {
 	private String[] _suitName = {"C", "D", "H", "S"};
 	private String[] _cardNum = {"2","3","4","5","6","7","8","9","10","J","K","Q","A"};
 	private ArrayList<String> _allCards;
+	private ArrayList<String> _card_labels = new ArrayList<>();
 	
 	public Cards() {
 		 ArrayList<String> AllCards = new ArrayList<String>();
@@ -54,6 +55,7 @@ public class Cards {
 		//System.out.println(elem);
 		String retval = "";
 		retval = 	_allCards.get(elem);
+		_card_labels.add(retval);
 		_allCards.remove(retval);
 		//System.out.println(retval);
 		return retval;
@@ -69,5 +71,9 @@ public class Cards {
 		}
 		return Labels;
 	}
+	
+	public ArrayList<String> getCardLabelNames(){
+            return _card_labels;
+        }
 
 }
