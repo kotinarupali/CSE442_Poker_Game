@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class PokerDesign {
 	
@@ -23,7 +24,7 @@ public class PokerDesign {
 	
 	String[] firstOptions = {"Rules", "Start Game", "Scoreboard","Shop"};
 	//Getting rules here
-	String[] Rules = new RuleReader().getRules("C:\\Users\\kotin\\Desktop\\cse 442\\CSE442_PokerGame\\src\\PokerGame_GUI\\allPokerRules.txt");
+	String[] Rules = new RuleReader().getRules("src\\PokerGame_GUI\\allPokerRules.txt");
 	
 	//The first JPanel contains a JLabel and JCombobox
 	final JPanel comboPanel = new JPanel(new GridBagLayout());
@@ -64,36 +65,10 @@ public class PokerDesign {
 	JPanel picPanel = new JPanel(new GridBagLayout());
 	picPanel.setVisible(false);
 	
-        JLabel picLabel1 = new JLabel();
-	ImageIcon Img1 = new Cards().getImageIcon("10C");
-	picPanel.add(picLabel1);
-	picPanel.add(new JLabel(Img1));
-        
-        JLabel picLabel2 = new JLabel();
-	ImageIcon Img2 = new Cards().getImageIcon("10H");
-	picPanel.add(picLabel2);
-	picPanel.add(new JLabel(Img2));
-        
-        JLabel picLabel3 = new JLabel();
-	ImageIcon Img3 = new Cards().getImageIcon("10D");
-	picPanel.add(picLabel3);
-	picPanel.add(new JLabel(Img3));
-        
-        JLabel picLabel4 = new JLabel();
-	ImageIcon Img4 = new Cards().getImageIcon("2C");
-	picPanel.add(picLabel4);
-	picPanel.add(new JLabel(Img4));
-        
-        JLabel picLabel5 = new JLabel();
-	ImageIcon Img5 = new Cards().getImageIcon("2H");
-	picPanel.add(picLabel5);
-	picPanel.add(new JLabel(Img5));
-        
-        JLabel picLabel6 = new JLabel();
-	ImageIcon Img6 = new Cards().getImageIcon("2D");
-	picPanel.add(picLabel6);
-	picPanel.add(new JLabel(Img6));
-        
+	JLabel[] label = new Cards().gameCardsLabel();
+	for(int i =0; i < label.length; i++) {
+		picPanel.add(label[i]);
+	}
 	
 	
 	JButton begButton = new JButton("BEGIN");
@@ -118,7 +93,7 @@ public class PokerDesign {
 	gc.gridy = 3;
 	comboPanel.add(begButton, gc);
         
-        GridLayout grid = new GridLayout(2, 3, 10, 10);
+        GridLayout grid = new GridLayout(2, 5, 2, 2);
         picPanel.setLayout(grid);
 	
 	
