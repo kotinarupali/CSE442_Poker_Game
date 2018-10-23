@@ -66,6 +66,18 @@ public class PokerDesign {
 	picPanel.setVisible(false);
 	
 	JLabel[] label = new Cards().gameCardsLabel();
+		
+	ArrayList<String> label_names = cards.getCardLabelNames();
+        ArrayList<String> player_one_names = new ArrayList<String>();
+        for(int i =0; i < 5; i++) {
+            player_one_names.add(label_names.get(i));
+	}
+        
+        ArrayList<String> player_two_names = new ArrayList<String>();
+         for(int i =5; i < 10; i++) {
+            player_two_names.add(label_names.get(i));
+	}
+		
 	for(int i =0; i < label.length; i++) {
 		picPanel.add(label[i]);
 	}
