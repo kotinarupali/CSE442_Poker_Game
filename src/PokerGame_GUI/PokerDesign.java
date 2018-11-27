@@ -24,7 +24,7 @@ public class PokerDesign {
 	
 	String[] firstOptions = {"Rules", "Start Game", "Scoreboard","Shop"};
 	//Getting rules here
-	String[] Rules = new RuleReader().getRules("C:\\Users\\kotin\\Desktop\\cse 442\\CSE442_PokerGame\\src\\PokerGame_GUI\\allPokerRules.txt");
+	String[] Rules = new RuleReader().getRules("src\\PokerGame_GUI\\allPokerRules.txt");
 	
 	//The first JPanel contains a JLabel and JCombobox
 	final JPanel comboPanel = new JPanel(new GridBagLayout());
@@ -133,25 +133,31 @@ public class PokerDesign {
 	begButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
 		if(dropList.getSelectedItem().equals("Rules")) {
-			comboPanel.setVisible(true);
+			comboPanel.setVisible(false);
 			listPanel.setVisible(true);
                         evaluateButtonPanel.setVisible(false);
 		}
 		else if(dropList.getSelectedItem().equals("Start Game")) {
 			comboPanel.setVisible(false);
+			listPanel.setVisible(false);
 			picPanel.setVisible(true);
-                        evaluateButtonPanel.setVisible(true);
-                        listPanel.setVisible(false);
+            evaluateButtonPanel.setVisible(true);
+                      for(int i =0; i<evaluateButtonPanel.getComponentCount(); i++) {
+                    	  evaluateButtonPanel.getComponent(i).setVisible(true);
+                      }
 		}
 		else
                 {comboPanel.setVisible(true);
                 evaluateButtonPanel.setVisible(false);
+                for(int i =0; i<evaluateButtonPanel.getComponentCount(); i++) {
+              	  evaluateButtonPanel.getComponent(i).setVisible(true);
+                }
                 }
 		}
 	});
         
         JButton evaluateButton = new JButton("EVALUATE");
-	
+        
 	evaluateButton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent event){
 		if(highCard(player_one_names) > highCard(player_two_names)) {
@@ -161,7 +167,10 @@ public class PokerDesign {
 			comboPanel.setVisible(false);
                         picPanel.setVisible(true);
 			listPanel.setVisible(false);
-                        evaluateButtonPanel.setVisible(false);
+                        evaluateButtonPanel.setVisible(true);
+                        evaluateButtonPanel.getComponent(0).setVisible(false);
+                        evaluateButtonPanel.getComponent(1).setVisible(false);
+                        
 		}
 		else {
   
@@ -170,18 +179,42 @@ public class PokerDesign {
 			comboPanel.setVisible(false);
 			picPanel.setVisible(true);
                         listPanel.setVisible(false);
-                        evaluateButtonPanel.setVisible(false);
+                        evaluateButtonPanel.setVisible(true);
+                        evaluateButtonPanel.getComponent(0).setVisible(false);
+                        evaluateButtonPanel.getComponent(1).setVisible(false);
 		}
 		}
 	});
-        
+	
+	ActionListener quitAction = new ActionListener() {
+		public void actionPerformed(ActionEvent event){
+			picPanel.setVisible(false);
+			listPanel.setVisible(false);
+			evaluateButtonPanel.setVisible(false);
+			p2WinsPanel.setVisible(false);
+			p1WinsPanel.setVisible(false);
+			comboPanel.setVisible(true);
+		}
+	};
+	     
 	gc.gridx = 1;
 	gc.gridy = 3;
 	comboPanel.add(begButton, gc);
         
-        evbc.gridx = 1;
+    evbc.gridx = 1;
 	evbc.gridy = 1;
 	evaluateButtonPanel.add(evaluateButton, evbc);
+	evbc.gridx = 1;
+	evbc.gridy = 2;
+	JButton backButton = new JButton("BACK");       
+	backButton.setBackground(Color.RED);
+	backButton.addActionListener(quitAction);
+	evaluateButtonPanel.add(backButton, evbc);
+	
+	JButton quitButton = new JButton("QUIT");       
+	quitButton.setBackground(Color.RED);
+	quitButton.addActionListener(quitAction);
+	listPanel.add(quitButton,evbc);
         
         GridLayout grid = new GridLayout(2, 5, 2, 2);
         picPanel.setLayout(grid);
