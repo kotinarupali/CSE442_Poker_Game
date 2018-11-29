@@ -22,14 +22,14 @@ public class Cards {
 		for(int f = 0; f<13; f++ ) {
 			for(int s =0; s<4; s++) {
 				AllCards.add( _cardNum[f] + _suitName[s]);
-				System.out.println( _cardNum[f] + _suitName[s]);
 			}
 		}
 		_allCards = AllCards;
 	}
 	
 	public BufferedImage projectImage(String getCard) {
-		String pngfile = "src\\Card_PNG\\"+ getCard +".png";
+		String pngfile;
+		pngfile = "src\\Card_PNG\\"+ getCard +".png";
 		try {
 			BufferedImage bg = ImageIO.read(new File(pngfile));
 			
@@ -41,8 +41,15 @@ public class Cards {
 		}
 	}
 	
-	public ImageIcon getImageIcon() {
-		ImageIcon Img = new ImageIcon(projectImage(getRandCard()));
+	public ImageIcon getImageIcon(String type) {
+		ImageIcon Img;
+		if(type.equals("back")) {
+			Img = new ImageIcon(projectImage("LOGO"));
+		}
+		else {
+			Img = new ImageIcon(projectImage(getRandCard()));
+		}
+	
 		Image nIg = Img.getImage();
 		Image aginNew = nIg.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
 		ImageIcon newImg = new ImageIcon(aginNew);
@@ -61,13 +68,17 @@ public class Cards {
 		return retval;
 	}
 	
-	public JLabel[] gameCardsLabel() {
-		JLabel[] Labels = new JLabel[10];
+	public JLabel[][] gameCardsLabel() {
+		JLabel[][] Labels = new JLabel[10][2];
 		for(int i =0; i < 10; i++) {
 			JLabel x = new JLabel();
-			ImageIcon Img = getImageIcon();
+			ImageIcon Img = getImageIcon("back");
 			x = new JLabel(Img);
-			Labels[i] = x;
+			Labels[i][0] = x;
+			Img = getImageIcon("face");
+			x = new JLabel(Img);
+			Labels[i][1] = x;
+			
 		}
 		return Labels;
 	}
