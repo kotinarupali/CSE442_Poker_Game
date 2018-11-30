@@ -113,21 +113,25 @@ public class PokerDesign {
 		gbc_addMoney.gridy = 1;
 		subPicpanel.add(addMoney, gbc_addMoney);
 		
-		JLabel label_1 = new JLabel("$0");
+		JLabel label_1 = new JLabel("$");
 		addMoney.add(label_1);
 		
 		JSlider slider = new JSlider();
+		slider.setMinorTickSpacing(10);
+		slider.setMajorTickSpacing(20);
+		slider.setSnapToTicks(true);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setForeground(new Color(0, 0, 0));
 		slider.setValue(10);
 		slider.setToolTipText("Amount to  raise");
 		addMoney.add(slider);
-		
-		JLabel label_2 = new JLabel("$100");
-		addMoney.add(label_2);
 
 		JButton raiseButton = new JButton("RAISE");
+		raiseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		addMoney.add(raiseButton);
 
 
@@ -292,18 +296,6 @@ public class PokerDesign {
 			}
 		});
 		
-		JButton showButton = new JButton("SHOW");
-		showButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for (int i = 0; i < 5; i++) {
-					label[i][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 1 cards
-					label[i+5][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 2 cards
-					evaluateButton.setEnabled(true);
-				}
-			}
-		});
-		addMoney.add(showButton);
-		
 		JButton foldButton = new JButton("FOLD");
 		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -320,6 +312,22 @@ public class PokerDesign {
 			}
 		});
 		addMoney.add(foldButton);
+		
+		JButton showButton = new JButton("SHOW");
+		showButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for (int i = 0; i < 5; i++) {
+					label[i][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 1 cards
+					label[i+5][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 2 cards
+					evaluateButton.setEnabled(true);
+					foldButton.setEnabled(false);
+					raiseButton.setEnabled(false);
+				}
+			}
+		});
+		addMoney.add(showButton);
+		
+		
 		
 		
 		
