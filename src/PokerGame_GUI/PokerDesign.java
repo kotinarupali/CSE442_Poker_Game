@@ -6,18 +6,20 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PokerDesign {
 
+	private Integer _tableAmount = 0;
+	
+	
 	public PokerDesign() {
 		JFrame guiFrame = new JFrame();
 		guiFrame.getContentPane().setBackground(Color.WHITE);
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		guiFrame.setTitle("Example GUI");
+		guiFrame.setTitle("THE WINGS POKER");
 		guiFrame.setSize(700, 700);
 		guiFrame.setBackground(Color.black);
 		guiFrame.setResizable(true);
@@ -87,9 +89,9 @@ public class PokerDesign {
 		picPanel.add(subPicpanel, gbc_subPicpanel);
 		GridBagLayout gbl_subPicpanel = new GridBagLayout();
 		gbl_subPicpanel.columnWidths = new int[] { 539, 0 };
-		gbl_subPicpanel.rowHeights = new int[] { 100, 100, 100, 0 };
-		gbl_subPicpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_subPicpanel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_subPicpanel.rowHeights = new int[] { 100, 0, 0, 100, 100, 0 };
+		gbl_subPicpanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_subPicpanel.rowWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		subPicpanel.setLayout(gbl_subPicpanel);
 
 		JPanel p1cards = new JPanel();
@@ -101,16 +103,63 @@ public class PokerDesign {
 		subPicpanel.add(p1cards, gbc_p1cards);
 		FlowLayout fl_p1cards = new FlowLayout(FlowLayout.CENTER, 5, 5);
 		p1cards.setLayout(fl_p1cards);
+		
+		JPanel mainTable = new JPanel();
+		mainTable.setToolTipText("Main Table");
+		GridBagConstraints gbc_mainTable = new GridBagConstraints();
+		gbc_mainTable.insets = new Insets(0, 0, 5, 0);
+		gbc_mainTable.fill = GridBagConstraints.BOTH;
+		gbc_mainTable.gridx = 0;
+		gbc_mainTable.gridy = 1;
+		subPicpanel.add(mainTable, gbc_mainTable);
+		
+		JLabel lblDeal = new JLabel("DEAL $" + _tableAmount);
+		mainTable.add(lblDeal);
+		
+		
+
+		JPanel addMoney = new JPanel();
+		GridBagConstraints gbc_addMoney = new GridBagConstraints();
+		gbc_addMoney.insets = new Insets(0, 0, 5, 0);
+		gbc_addMoney.fill = GridBagConstraints.BOTH;
+		gbc_addMoney.gridx = 0;
+		gbc_addMoney.gridy = 2;
+		subPicpanel.add(addMoney, gbc_addMoney);
+		
+		JLabel label_1 = new JLabel("$");
+		addMoney.add(label_1);
+		
+		JSlider slider = new JSlider();getClass();
+		slider.setMinimum(10);
+		slider.setMaximum(200);
+		slider.setMinorTickSpacing(25);
+		slider.setMajorTickSpacing(50);
+		slider.setSnapToTicks(true);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setForeground(new Color(0, 0, 0));
+		slider.setValue(10);
+		slider.setToolTipText("Amount to  raise");
+		addMoney.add(slider);
+
+		JLabel cpuLabel = new JLabel("CPU $" + slider.getMaximum());
+		p1cards.add(cpuLabel);
+		
+
 
 		JPanel p2cards = new JPanel();
 		GridBagConstraints gbc_p2cards = new GridBagConstraints();
 		gbc_p2cards.fill = GridBagConstraints.BOTH;
 		gbc_p2cards.insets = new Insets(0, 0, 5, 0);
 		gbc_p2cards.gridx = 0;
-		gbc_p2cards.gridy = 1;
+		gbc_p2cards.gridy = 3;
 		subPicpanel.add(p2cards, gbc_p2cards);
 		FlowLayout fl_p2cards = new FlowLayout(FlowLayout.CENTER, 5, 5);
 		p2cards.setLayout(fl_p2cards);
+		
+		JLabel userLabel = new JLabel("YOU $" + slider.getMaximum());
+		userLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		p2cards.add(userLabel);
 
 		Cards cards = new Cards();
 		/* These labels are the back side of cards with The wings LOGO */
@@ -132,70 +181,11 @@ public class PokerDesign {
 			player_one_names.add(label_names.get(i));
 			player_two_names.add(label_names.get(i + 5));
 		}
-
-		final JPanel evaluateButtonPanel = new JPanel(new GridBagLayout());
-		evaluateButtonPanel.setVisible(false);
-
-		final JPanel p2WinsPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc_p2WinsPanel = new GridBagConstraints();
-		gbc_p2WinsPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_p2WinsPanel.gridx = 0;
-		gbc_p2WinsPanel.gridy = 0;
-		JLabel p2Wins = new JLabel("YOU WON THE DEAL!!!");
-		GridBagConstraints gbc_p2Wins = new GridBagConstraints();
-		p2WinsPanel.add(p2Wins, gbc_p2Wins);
-		p2WinsPanel.setVisible(false);
-		evaluateButtonPanel.add(p2WinsPanel, gbc_p2WinsPanel);
-
-		final JPanel p1WinsPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc_p1WinsPanel = new GridBagConstraints();
-		gbc_p1WinsPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_p1WinsPanel.gridx = 0;
-		gbc_p1WinsPanel.gridy = 1;
-		JLabel p1Wins = new JLabel("PLAYER 1 WINS!!!");
-		p1WinsPanel.add(p1Wins);
-		p1WinsPanel.setVisible(false);
-		evaluateButtonPanel.add(p1WinsPanel, gbc_p1WinsPanel);
-
-		JButton evaluateButton = new JButton("EVALUATE");
-
-		evaluateButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				if (highCard(player_one_names) > highCard(player_two_names)) {
-					for (int i = 0; i < evaluateButtonPanel.getComponentCount(); i++) {
-						if (i == 1 || i == 4) {// player location and QUIT button
-							evaluateButtonPanel.getComponent(i).setVisible(true);
-						} else {
-							evaluateButtonPanel.getComponent(i).setVisible(false);
-						}
-					}
-					comboPanel.setVisible(false);
-					picPanel.setVisible(true);
-					listPanel.setVisible(false);
-					evaluateButtonPanel.setVisible(true);
-
-				} else {
-					for (int i = 0; i < evaluateButtonPanel.getComponentCount(); i++) {
-						if (i == 0 || i == 4) {// player location and QUIT button
-							evaluateButtonPanel.getComponent(i).setVisible(true);
-						} else {
-							evaluateButtonPanel.getComponent(i).setVisible(false);
-						}
-					}
-					comboPanel.setVisible(false);
-					picPanel.setVisible(true);
-					listPanel.setVisible(false);
-					evaluateButtonPanel.setVisible(true);
-
-				}
-			}
-		});
-
+		
 		ActionListener quitAction = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				picPanel.setVisible(false);
 				listPanel.setVisible(false);
-				evaluateButtonPanel.setVisible(false);
 				comboPanel.setVisible(true);
 			}
 		};
@@ -206,14 +196,6 @@ public class PokerDesign {
 		gbc_BACKButton.gridx = 2;
 		gbc_BACKButton.gridy = 0;
 		listPanel.add(BACKButton, gbc_BACKButton);
-
-		GridBagConstraints gbc_evaluateButton = new GridBagConstraints();
-		gbc_evaluateButton.insets = new Insets(0, 0, 5, 0);
-		gbc_evaluateButton.gridx = 0;
-		gbc_evaluateButton.gridy = 2;
-		evaluateButtonPanel.add(evaluateButton, gbc_evaluateButton);
-
-		evaluateButtonPanel.setBackground(Color.WHITE);
 
 		GridLayout grid = new GridLayout(2, 5, 2, 2);
 		picPanel.setLayout(grid);
@@ -226,7 +208,6 @@ public class PokerDesign {
 				comboPanel.setVisible(false);
 				listPanel.setVisible(false);
 				picPanel.setVisible(true);
-				evaluateButtonPanel.setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnStartGame = new GridBagConstraints();
@@ -240,7 +221,6 @@ public class PokerDesign {
 			public void actionPerformed(ActionEvent e) {
 				comboPanel.setVisible(false);
 				listPanel.setVisible(true);
-				evaluateButtonPanel.setVisible(false);
 			}
 		});
 		GridBagConstraints gbc_btnHowToPlay = new GridBagConstraints();
@@ -261,7 +241,6 @@ public class PokerDesign {
 			public void actionPerformed(ActionEvent e) {
 				picPanel.setVisible(false);
 				listPanel.setVisible(false);
-				evaluateButtonPanel.setVisible(false);
 				comboPanel.setVisible(false);
 				moneyPanel.setVisible(true);
 			}
@@ -282,62 +261,115 @@ public class PokerDesign {
 		gbc_btnShop.gridy = 1;
 		comboPanel.add(btnShop, gbc_btnShop);
 
-		guiFrame.getContentPane().add(evaluateButtonPanel);
+		guiFrame.getContentPane().add(picPanel);
 
-		GridBagConstraints evbc = new GridBagConstraints();
-		evbc.insets = new Insets(0, 0, 5, 0);
-		evbc.gridx = 0;
-		evbc.gridy = 3;
-
-		JLabel evLbl = new JLabel("PRESS TO EVALUATE:");
+		JPanel allButtons = new JPanel();
+		GridBagConstraints gbc_allButtons = new GridBagConstraints();
+		gbc_allButtons.fill = GridBagConstraints.BOTH;
+		gbc_allButtons.gridheight = 2;
+		gbc_allButtons.gridx = 0;
+		gbc_allButtons.gridy = 4;
+		subPicpanel.add(allButtons, gbc_allButtons);
+		allButtons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JLabel evLbl = new JLabel("CLICK TO");
+		allButtons.add(evLbl);
 		evLbl.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 
-		evaluateButtonPanel.add(evLbl, evbc);
-		evbc.gridx = 0;
-		evbc.gridy = 0;
-
-		evbc.gridx = 1;
-		evbc.gridy = 1;
-		evbc.gridx = 1;
-		evbc.gridy = 2;
-		JButton QUITButton = new JButton("QUIT-GAME");
-		QUITButton.setBackground(Color.RED);
-		GridBagConstraints gbc_QUITButton = new GridBagConstraints();
-		gbc_QUITButton.insets = new Insets(0, 0, 5, 0);
-		gbc_QUITButton.gridx = 0;
-		gbc_QUITButton.gridy = 4;
-		QUITButton.addActionListener(quitAction);
-		evaluateButtonPanel.add(QUITButton, gbc_QUITButton);
+		JButton evaluateButton = new JButton("EVALUATE");
+		evaluateButton.setEnabled(false);
+		allButtons.add(evaluateButton);
 
 		JButton btnNewGame = new JButton("NEW GAME");
+		allButtons.add(btnNewGame);
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guiFrame.dispose();
 				new PokerDesign();
 			}
 		});
-		GridBagConstraints gbc_btnNewGame = new GridBagConstraints();
-		gbc_btnNewGame.gridx = 0;
-		gbc_btnNewGame.gridy = 5;
-		evaluateButtonPanel.add(btnNewGame, gbc_btnNewGame);
 
-		guiFrame.getContentPane().add(picPanel);
+		JButton QUITButton = new JButton("BACK");
+		allButtons.add(QUITButton);
+		QUITButton.setBackground(Color.RED);
+		QUITButton.addActionListener(quitAction);
 
-		JPanel allButtons = new JPanel();
-		GridBagConstraints gbc_allButtons = new GridBagConstraints();
-		gbc_allButtons.fill = GridBagConstraints.BOTH;
-		gbc_allButtons.gridx = 0;
-		gbc_allButtons.gridy = 2;
-		subPicpanel.add(allButtons, gbc_allButtons);
-
+		evaluateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if (highCard(player_one_names) > highCard(player_two_names)) {
+					evLbl.setText("YOU WON THE DEAL $"+_tableAmount);
+				} else {
+					evLbl.setText("YOU LOST THE DEAL");
+				}
+				comboPanel.setVisible(false);
+				picPanel.setVisible(true);
+				listPanel.setVisible(false);
+				evaluateButton.setVisible(false);
+				addMoney.setVisible(false);
+			}
+		});
+		
 		JButton raiseButton = new JButton("RAISE");
-		allButtons.add(raiseButton);
-
-		JButton showButton = new JButton("SHOW");
-		allButtons.add(showButton);
-
+		raiseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int val = slider.getValue();
+				_tableAmount = _tableAmount + 2*val;
+				lblDeal.setText("ON TABLE $" + _tableAmount);
+				slider.setMaximum(slider.getMaximum() - val);
+				val = slider.getMaximum();
+				cpuLabel.setText("CPU $"+val);
+				userLabel.setText("YOU $"+val);
+				if(val == 0) {
+					if (highCard(player_one_names) > highCard(player_two_names)) {
+						evLbl.setText("YOU WON THE DEAL"+_tableAmount);
+					} else {
+						evLbl.setText("YOU LOST THE DEAL");
+					}
+					comboPanel.setVisible(false);
+					picPanel.setVisible(true);
+					listPanel.setVisible(false);
+					evaluateButton.setVisible(false);
+					addMoney.setVisible(false);
+				}
+				
+			}
+		});
+		addMoney.add(raiseButton);
+		
 		JButton foldButton = new JButton("FOLD");
-		allButtons.add(foldButton);
+		foldButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (highCard(player_one_names) > highCard(player_two_names)) {
+					evLbl.setText("YOU COULD HAVE WON $"+_tableAmount);
+				} else {
+					evLbl.setText("BETTER YOU GAVE UP");
+				}
+				comboPanel.setVisible(false);
+				picPanel.setVisible(true);
+				listPanel.setVisible(false);
+				evaluateButton.setVisible(false);
+				addMoney.setVisible(false);
+			}
+		});
+		addMoney.add(foldButton);
+		
+		JButton showButton = new JButton("SHOW");
+		showButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for (int i = 0; i < 5; i++) {
+					label[i][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 1 cards
+					label[i+5][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 2 cards
+					evaluateButton.setEnabled(true);
+					foldButton.setEnabled(false);
+					raiseButton.setEnabled(false);
+				}
+			}
+		});
+		addMoney.add(showButton);
+		
+		
+		
+		
+		
 		guiFrame.getContentPane().add(listPanel);
 		guiFrame.setVisible(true);
 
