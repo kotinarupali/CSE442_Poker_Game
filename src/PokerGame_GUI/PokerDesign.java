@@ -40,7 +40,7 @@ public class PokerDesign {
 
 		String[] firstOptions = { "Rules", "Start Game", "MoneyBoard", "Shop" };
 		// Getting rules here
-		String[] Rules = new RuleReader().getRules("src\\PokerGame_GUI\\allPokerRules.txt");
+		String[] Rules = new RuleReader().getRules("C:\\Users\\kotin\\Downloads\\1201181956updated\\src\\PokerGame_GUI\\allPokerRules.txt");
 
 		// The first JPanel contains a JLabel and JCombobox
 		final JPanel comboPanel = new JPanel(new GridBagLayout());
@@ -175,6 +175,7 @@ public class PokerDesign {
 		p2cards.add(userLabel);
 
 		Cards cards = new Cards();
+                Evaluate ev = new Evaluate();
 		/* These labels are the back side of cards with The wings LOGO */
 		JLabel[][] label = cards.gameCardsLabel();
 		for (int i = 0; i < 5; i++) {
@@ -194,7 +195,17 @@ public class PokerDesign {
 			player_one_names.add(label_names.get(i));
 			player_two_names.add(label_names.get(i + 5));
 		}
-
+                
+//                System.out.println("Player one");
+//                for (int i = 0; i < 5; i++) {
+//                    System.out.println(player_one_names.get(i));
+//                }
+//                
+//                System.out.println("Player two");
+//                for (int i = 0; i < 5; i++) {
+//                    System.out.println(player_two_names.get(i));
+//                }
+                
 		ActionListener quitAction = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				picPanel.setVisible(false);
@@ -267,8 +278,8 @@ public class PokerDesign {
 		JButton btnShop = new JButton("NEW GAME");
 		btnShop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				guiFrame.dispose();
-				new PokerDesign();
+                            guiFrame.dispose();
+                            new PokerDesign();
 			}
 		});
 		GridBagConstraints gbc_btnShop = new GridBagConstraints();
@@ -310,7 +321,9 @@ public class PokerDesign {
 
 		evaluateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				if (evaluateHand(player_one_names) > evaluateHand(player_two_names)) {
+//                                 System.out.println(ev.evaluateHand(player_one_names));
+//                                 System.out.println(ev.evaluateHand(player_two_names));
+				if (ev.evaluateHand(player_one_names) < ev.evaluateHand(player_two_names)) {
 					evLbl.setText("YOU WON THE DEAL $" + _tableAmount);
 				} else {
 					evLbl.setText("YOU LOST THE DEAL");
@@ -334,7 +347,7 @@ public class PokerDesign {
 				cpuLabel.setText("CPU $" + val);
 				userLabel.setText("YOU $" + val);
 				if (val == 0) {
-					if (evaluateHand(player_one_names) > evaluateHand(player_two_names)) {
+					if (ev.evaluateHand(player_one_names) < ev.evaluateHand(player_two_names)) {
 						evLbl.setText("YOU WON THE DEAL" + _tableAmount);
 					} else {
 						evLbl.setText("YOU LOST THE DEAL");
@@ -353,7 +366,7 @@ public class PokerDesign {
 		JButton foldButton = new JButton("FOLD");
 		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (evaluateHand(player_one_names) > evaluateHand(player_two_names)) {
+				if (ev.evaluateHand(player_one_names) < ev.evaluateHand(player_two_names)) {
 					evLbl.setText("YOU COULD HAVE WON $" + _tableAmount);
 				} else {
 					evLbl.setText("BETTER YOU GAVE UP");
@@ -371,8 +384,10 @@ public class PokerDesign {
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (int i = 0; i < 5; i++) {
+//                                        System.out.print(player_one_names.get(i));
+//                                        System.out.print(player_two_names.get(i));
 					label[i][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 1 cards
-					label[i + 5][0].setIcon(cards.getImageIcon(player_one_names.get(i)));// player 2 cards
+					label[i + 5][0].setIcon(cards.getImageIcon(player_two_names.get(i)));// player 2 cards
 					evaluateButton.setEnabled(true);
 					foldButton.setEnabled(false);
 					raiseButton.setEnabled(false);
@@ -565,239 +580,5 @@ public class PokerDesign {
 		guiFrame.setVisible(true);
 		//Maximize windows
 		guiFrame.setExtendedState(guiFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-
-	}
-        
-        public void bubbleSort(int arr[])
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4 - i; j++)
-                {
-                    if (arr[j] < arr[j + 1])
-                    {
-                        int temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = arr[j];
-                    }
-                }
-            }
-        }
-
-	public String get_cardName(String playerLabel) {
-		String cardNum = playerLabel.substring(0, playerLabel.length() - 1);
-		switch (cardNum) {
-		case "A":
-			return "14";
-		case "K":
-			return "13";
-		case "Q":
-			return "12";
-		case "J":
-			return "11";
-		default:
-			return cardNum;
-		}
-	}
-
-	public String get_suitName(String playerLabel) {
-		return playerLabel.substring(playerLabel.length() - 1);
-	}
-        
-        // calculates the highCard
-	public int highCard(ArrayList<String> playerLabels) {
-		int highCardNum = 0;
-		for (int i = 0; i < 5; i++) {
-			int card1 = Integer.parseInt(get_cardName(playerLabels.get(i)));
-			if (highCardNum <= card1) {
-				highCardNum = card1;
-			}
-		}
-		return highCardNum;
-	}
-        
-        //one pair
-        public int onePair(ArrayList<String> playerLabels) {
-            int checkPair = 0;
-            int[] cardLabel = new int[5];
-            String[] cardSuit = new String[5];
-            for (int i = 0; i < 5; i++)
-                cardLabel[i] = Integer.parseInt(get_cardName(playerLabels.get(i)));
-            for (int i = 0; i < 5; i++)    
-                cardSuit[i] = get_suitName(get_suitName(playerLabels.get(i)));
-            for (int i = 0; i < 5; i++)
-                for (int j = i + 1; j < 5; j++)
-                    if ((cardSuit[i] == cardSuit[j]) && (cardLabel[i] == cardLabel[j]))
-                        checkPair = 15;
-            return checkPair;
-        }
-        
-        //two different pairs
-        public int twoPair(ArrayList<String> playerLabels) {
-            int numPair = 0;
-            int[] cardLabel = new int[5];
-            String[] cardSuit = new String[5];
-            for (int i = 0; i < 5; i++)
-                cardLabel[i] = Integer.parseInt(get_cardName(playerLabels.get(i)));
-            for (int i = 0; i < 5; i++)    
-                cardSuit[i] = get_suitName(get_suitName(playerLabels.get(i)));
-            for (int i = 0; i < 5; i++)
-                for (int j = i + 1; j < 5; j++)
-                    if ((cardSuit[i] == cardSuit[j]) && (cardLabel[i] == cardLabel[j]))
-                        numPair++;            
-            if (numPair == 2)
-                return 16;
-            else
-                return 0;
-        }
-        
-        // Any three numerically matching cards
-        public int threeOfAKind(ArrayList<String> playerLabels) {
-            int cardLabel;
-            int type =0;
-            Map<Integer, Integer> frequencyCount = new HashMap<Integer, Integer>();
-            for (int i = 0; i < 5; i++) {
-                cardLabel = Integer.parseInt(get_cardName(playerLabels.get(i)));
-                if (frequencyCount.containsKey(cardLabel)) {
-                    int frequency = frequencyCount.get(cardLabel);
-                    frequency++;
-                    frequencyCount.put(cardLabel, frequency);
-                }
-                else {
-                    frequencyCount.put(cardLabel, 1);
-                }
-            }
-            for (int cardFreq: frequencyCount.values())
-                if (cardFreq == 3)
-                    type = 17;
-                else
-                    type = 0;
-            return type;
-        }
-        
-        // all 5 cards are consecutive 
-        public int straight(ArrayList<String> playerLabels) {
-            int[] cardLabel = new int[5];
-            int type =0;
-            for (int i = 0; i < 5; i++) {
-                cardLabel[i] = Integer.parseInt(get_cardName(playerLabels.get(i)));
-            }
-            bubbleSort(cardLabel);
-            for (int i = 0; i < 4; i++)
-            {
-                if(cardLabel[i] != (cardLabel[i + 1] - 1))
-                    type = 0;
-                else
-                    type = 18;
-            }
-            return type;
-        }
-        
-        // all cards have the same suit
-        public int flush(ArrayList<String> playerLabels) {
-            String[] cardSuit = new String[5];
-            int type = 0;
-            for (int i = 0; i < 5; i++) {
-                cardSuit[i] = get_suitName(playerLabels.get(i));
-            }
-            String firstSuit = cardSuit[0];
-            for (int i = 0; i < 4; i++)
-            {
-                if (cardSuit[i+1] != firstSuit)
-                    type = 0;
-                else
-                    type = 19;
-            }
-            return type;
-        }
-        
-        //a three of a kind and a pair
-        public int fullHouse(ArrayList<String> playerLabels) {
-            int type = 0;
-            if ((threeOfAKind(playerLabels) == 17) && (onePair(playerLabels) == 15))
-                type = 20;
-            else
-                type = 0;
-            return type;
-        }
-        
-        //Any four numerically matching cards
-        public int fourOfAKind(ArrayList<String> playerLabels) {
-            int cardLabel;
-            int type =0;
-            Map<Integer, Integer> frequencyCount = new HashMap<Integer, Integer>();
-            for (int i = 0; i < 5; i++) {
-                cardLabel = Integer.parseInt(get_cardName(playerLabels.get(i)));
-                if (frequencyCount.containsKey(cardLabel)) {
-                    int frequency = frequencyCount.get(cardLabel);
-                    frequency++;
-                    frequencyCount.put(cardLabel, frequency);
-                }
-                else {
-                    frequencyCount.put(cardLabel, 1);
-                }
-            }
-            for (int cardFreq: frequencyCount.values())
-                if (cardFreq == 4)
-                    type = 21;
-                else
-                    type = 0;
-            return type;
-        }
-        
-        //combination of staroght and flush
-        public int straightFlush(ArrayList<String> playerLabels) {
-            int type =0;
-            if ((straight(playerLabels) == 18) && (flush(playerLabels) == 19))
-                type = 22;
-            else
-                type = 0;
-            return type;
-        }
-        
-        //The best possible hand in Texas hold'em is the combination of 
-        //ten, jack, queen, king, ace, all of the same suit
-        public int royalFlush(ArrayList<String> playerLabels) {
-            int type = 0;
-            int[] cardLabel = new int[5];
-            if(flush(playerLabels) == 19){
-                for (int i = 0; i < 5; i++) {
-                    cardLabel[i] = Integer.parseInt(get_cardName(playerLabels.get(i)));
-                }
-                bubbleSort(cardLabel);
-                if ((cardLabel[0] == 10) && (cardLabel[1] == 11) && (cardLabel[2] == 12) && (cardLabel[3] == 13) && (cardLabel[4] == 14))
-                    type = 23;
-            }
-            else
-                type = 0;
-            return type;
-        }
-        
-        // Each poker rule is associated with an integer value such that the highCard will be till 14 which is an Ace
-        // All other values are like one pair as 15, two pair as 16 and so on until royal flush which is 23
-        // each player gets the value based on the hand he has using the evaluateHand function
-        public int evaluateHand(ArrayList<String> playerLabels) {
-            int handCount = 0;
-            if (royalFlush(playerLabels) == 23)
-                handCount = 23;
-            else if (straightFlush(playerLabels) == 22)
-                handCount = 22;
-            else if (fourOfAKind(playerLabels) == 21)
-                handCount = 21;
-            else if (fullHouse(playerLabels) == 20)
-                handCount = 20;
-            else if (flush(playerLabels) == 19)
-                handCount = 19;
-            else if (straight(playerLabels) == 18)
-                handCount = 18;
-            else if (threeOfAKind(playerLabels) == 17)
-                handCount = 17;
-            else if (twoPair(playerLabels) == 16)
-                handCount = 16;
-            else if (onePair(playerLabels) == 15)
-                handCount = 15;
-            else 
-                handCount = highCard(playerLabels);
-            return handCount;
-        }       
+	}      
 }
