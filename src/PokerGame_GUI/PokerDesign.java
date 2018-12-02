@@ -267,6 +267,8 @@ public class PokerDesign {
 		JButton btnShop = new JButton("NEW GAME");
 		btnShop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				guiFrame.dispose();
+				new PokerDesign();
 			}
 		});
 		GridBagConstraints gbc_btnShop = new GridBagConstraints();
