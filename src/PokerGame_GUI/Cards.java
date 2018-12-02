@@ -29,7 +29,8 @@ public class Cards {
 	
 	public BufferedImage projectImage(String getCard) {
 		String pngfile;
-		pngfile = "src\\Card_PNG\\"+ getCard +".png";
+                // System.out.println(getCard);
+		pngfile = "C:\\Users\\kotin\\Downloads\\1201181956updated\\src\\Card_PNG\\"+ getCard +".png";
 		try {
 			BufferedImage bg = ImageIO.read(new File(pngfile));
 			
@@ -46,8 +47,11 @@ public class Cards {
 		if(type.equals("back")) {
 			Img = new ImageIcon(projectImage("LOGO"));
 		}
+                else if(type.equals("face")){
+                    Img = new ImageIcon(projectImage(getRandCard()));
+                }
 		else {
-			Img = new ImageIcon(projectImage(getRandCard()));
+			Img = new ImageIcon(projectImage(type));
 		}
 	
 		Image nIg = Img.getImage();
