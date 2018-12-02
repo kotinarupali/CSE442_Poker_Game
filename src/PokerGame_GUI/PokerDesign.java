@@ -40,7 +40,7 @@ public class PokerDesign {
 
 		String[] firstOptions = { "Rules", "Start Game", "MoneyBoard", "Shop" };
 		// Getting rules here
-		String[] Rules = new RuleReader().getRules("C:\\Users\\kotin\\Downloads\\1201181956updated\\src\\PokerGame_GUI\\allPokerRules.txt");
+		String[] Rules = new RuleReader().getRules("\\src\\PokerGame_GUI\\allPokerRules.txt");
 
 		// The first JPanel contains a JLabel and JCombobox
 		final JPanel comboPanel = new JPanel(new GridBagLayout());
