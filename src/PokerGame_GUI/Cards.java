@@ -30,7 +30,7 @@ public class Cards {
 	public BufferedImage projectImage(String getCard) {
 		String pngfile;
                 // System.out.println(getCard);
-		pngfile = "C:\\Users\\kotin\\Downloads\\1201181956updated\\src\\Card_PNG\\"+ getCard +".png";
+		pngfile = "src\\Card_PNG\\"+ getCard +".png";
 		try {
 			BufferedImage bg = ImageIO.read(new File(pngfile));
 			
