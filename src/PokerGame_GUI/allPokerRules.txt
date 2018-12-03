@@ -1,6 +1,5 @@
-1. Royal Flush
-The best possible hand in Texas hold'em is the combination
-of ten, jack, queen, king, ace, all of the same suit
+1. Royal Flush 
+The best possible hand in Texas hold'em is the combination of ten, jack, queen, king, ace, all of the same suit
 
 2. Straight Flush
 Five cards of the same suit in sequential order
@@ -27,5 +26,4 @@ Two different pairs in the same hand
 Any two numerically matching cards
 
 10. High Card
-The highest ranked card in your hand with an ace being the
-highest and two being the lowest
+The highest ranked card in your hand with an ace being the highest and two being the lowest
