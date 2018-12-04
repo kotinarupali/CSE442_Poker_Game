@@ -120,5 +120,16 @@ public class HandEvaluatorTest {
             }
         else
             System.out.println("Failed at evauating High Card");
+        
+        if (check == 10)
+        {
+            System.out.println();
+            System.out.println("All successful");
+        }
+        else
+        {
+            System.out.println();
+            System.out.println("One of the rules is not being evaluated properly");
+        }  
     }
 }
