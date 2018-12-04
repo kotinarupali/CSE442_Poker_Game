@@ -124,7 +124,7 @@ public class HandEvaluatorTest {
         if (check == 10)
         {
             System.out.println();
-            System.out.println("All successful");
+            System.out.println("All successful!!");
         }
         else
         {
