@@ -20,8 +20,8 @@ public class PlayerWinsTest {
         ArrayList<String> cpu_labels = new ArrayList<>(Arrays.asList("10C", "9C", "10D", "9D", "10H"));
         
         if(ev.evaluateHand(cpu_labels) < ev.evaluateHand(player_labels))
-            System.out.println("Player wins");
+            System.out.println("Player Wins!!");
         else
-            System.out.println("CPU Wins");
+            System.out.println("CPU Wins!!");
     }
 }
