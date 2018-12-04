@@ -21,11 +21,11 @@ public class Evaluate {
             {
                 for (int j = 0; j < 4 - i; j++)
                 {
-                    if (arr[j] < arr[j + 1])
+                    if (arr[j] > arr[j + 1])
                     {
                         int temp = arr[j];
                         arr[j] = arr[j + 1];
-                        arr[j + 1] = arr[j];
+                        arr[j + 1] = temp;
                     }
                 }
             }
@@ -56,6 +56,7 @@ public class Evaluate {
 		int highCardNum = 0;
 		for (int i = 0; i < 5; i++) {
 			int card1 = Integer.parseInt(get_cardName(playerLabels.get(i)));
+                        
 			if (highCardNum <= card1) {
 				highCardNum = card1;
 			}
@@ -145,10 +146,10 @@ public class Evaluate {
             bubbleSort(cardLabel);
             for (int i = 0; i < 4; i++)
             {
-                if(cardLabel[i] != (cardLabel[i + 1] - 1))
-                    type = 0;
-                else
+                if((cardLabel[i + 1] - cardLabel[i]) == 1)
                     type = 18;
+                else
+                    type = 0;
             }
             return type;
         }
@@ -157,18 +158,20 @@ public class Evaluate {
         public int flush(ArrayList<String> playerLabels) {
             String[] cardSuit = new String[5];
             int type = 0;
+            int check = 0;
             for (int i = 0; i < 5; i++) {
                 cardSuit[i] = get_suitName(playerLabels.get(i));
             }
             String firstSuit = cardSuit[0];
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-                if (cardSuit[i+1] != firstSuit)
-                    type = 0;
-                else
-                    type = 19;
+                if (cardSuit[i].contains(firstSuit))
+                    check++;
             }
-            return type;
+            if (check == 5)
+                return 19;
+            else
+                return 0;
         }
         
         //a three of a kind and a pair
@@ -208,8 +211,11 @@ public class Evaluate {
         //combination of staroght and flush
         public int straightFlush(ArrayList<String> playerLabels) {
             int type =0;
-            if ((straight(playerLabels) == 18) && (flush(playerLabels) == 19))
-                type = 22;
+            if ((straight(playerLabels) == 18))
+                if ((flush(playerLabels) == 19))
+                    type = 22;
+                else
+                    type = 0;
             else
                 type = 0;
             return type;
